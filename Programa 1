@@ -1,0 +1,22 @@
+ const int boton = 4;
+ const int leds[] = {8, 9, 10, 11};
+
+void setup() {
+
+  for (int i = 0; i < 4; i++) {
+    pinMode(leds[i], OUTPUT); // Configura los pines de los LEDs como salida
+  }
+  pinMode(boton, INPUT); // Configura el pin del botón como entrada
+}
+
+void loop() {
+  if (digitalRead(boton) == HIGH) { // Si el botón está presionado
+    for (int i = 0; i < 4; i++) {
+      digitalWrite(leds[i], LOW); // Enciende todos los LEDs
+    }
+  } else {
+    for (int i = 0; i < 4; i++) {
+      digitalWrite(leds[i], HIGH); // Apaga todos los LEDs
+    }
+  }
+}
