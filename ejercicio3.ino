@@ -1,13 +1,13 @@
 // Ejercicio evaluatorio 3er bimestre
 /*
   Integrantes
-    Nombre:
-    Apellido:
-    Curso:
+    Nombre: Alejandro
+    Apellido: Kretzig
+    Curso: 3TIC C
     
-    Nombre:
-    Apellido:
-    Curso:
+    Nombre: Tobias
+    Apellido: German
+    Curso: 3TIC C
   
 Congisgnas
   Conexionado:
@@ -15,14 +15,14 @@ Congisgnas
     Se debe conectar tambien, un pulsador que permita recibir información de un usuario.
     Indicar a continuación los pines a los cuales se conectó cada elemento y el valor de resistencias utilizado:
       Pines:
-        Boton:
-        LED1:
-        LED2:
-        LED3:
-        LED4:
+        Boton: 8
+        LED1: 2
+        LED2: 3
+        LED3: 4
+        LED4: 5
       Valor:
-        R_boton:
-        R_LEDs:
+        R_boton: 5,6K
+        R_LEDs: 330
 
   Progamas:
     Se deben entregar un programa distinto por cada punto. Los programas son una modificación entre ellos.
@@ -45,12 +45,48 @@ Congisgnas
 
 */ 
 
+#define LED1 2
+#define LED2 3
+#define LED3 4
+#define LED4 5
+
+#define BOTON 8
+
+bool ultimoEstado = false;
+int contador = 0;
 
 void setup() {
-  // Configuración del arduino
+  pinMode(BOTON, INPUT);
+  pinMode(LED1, OUTPUT);
+  pinMode(LED2, OUTPUT);
+  pinMode(LED3, OUTPUT);
+  pinMode(LED4, OUTPUT);
+  Serial.begin(9600);
 }
 
 void loop() {
-  // Logica del programa
+  if (digitalRead(BOTON) != ultimoEstado) { // compruebo que haya cambiado el estado del boton
+    if (digitalRead(BOTON) == HIGH) { // si esta presionado
+      // reiniciar contador al llegar a 16
+      if (contador >= 16) {
+        contador = 0;
+      }
+      // escribir valor en binario
+      // bitRead(<numero decimal>, <n de bit que retorna>)
+      digitalWrite(LED4, bitRead(contador, 0));
+      digitalWrite(LED3, bitRead(contador, 1));
+      digitalWrite(LED2, bitRead(contador, 2));
+      digitalWrite(LED1, bitRead(contador, 3));
+      contador++;
+    }
+    // actualiza el ultimo estado
+    ultimoEstado = digitalRead(BOTON);
+  }
+}
 
+void apagarTodos() {
+  digitalWrite(LED1, LOW);
+  digitalWrite(LED2, LOW);
+  digitalWrite(LED3, LOW);
+  digitalWrite(LED4, LOW);
 }
